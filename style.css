@@ -1,3 +1,7 @@
+body{
+    background-color: #cacaca;
+}
+
 
 .container {
     display: flex;
@@ -24,6 +28,16 @@
     border: 1px solid rgb(71, 71, 71);
     border-radius: 10%;
     margin-bottom: 1em;
+    letter-spacing: .1em;
+}
+
+.display-content{
+
+    color: rgb(233, 233, 233);
+    text-align: right;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 40px;
+    padding-right: 0.7em;
 }
 
 .btn{
@@ -48,7 +62,7 @@
 }
 
 .btn-clicked {
-    transform: scale(1.05);
+    transform: scale(0.95);
 }
 
 .outter-btn{
