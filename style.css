@@ -48,7 +48,7 @@
 }
 
 .btn-clicked {
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 .outter-btn{
@@ -67,9 +67,15 @@
 
 .equal-btn{
     background-color: rgb(149, 111, 31);
+    grid-column-start: 1;
+    grid-column-end: 5;
+    width: 95%;
+    margin-top: 0.5rem;
+    border-radius: 8%;
 }
 .equal-btn img {
-    transform: scale(0.6);
+    transform: scale(0.7);
+    width: auto;
 }
 .equal-btn:hover{
     background-color: rgb(171, 140, 72);
