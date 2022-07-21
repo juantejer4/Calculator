@@ -1,6 +1,5 @@
 on_operation = false;
-operator_pressed = false;
-last_operator = '';
+current_operator = 'none';
 
 DISPLAY_VALUE = '';
 
@@ -45,8 +44,12 @@ function clearDisplay(){
 
 function showContent(n){
     clearDisplay();
-    DISPLAY_VALUE = n;
-    disp.textContent = n;
+    if (n !== '') {
+        DISPLAY_VALUE = n;
+        disp.textContent = n;    
+    } else {
+        clearDisplay();
+    }
 }
 
 function addContent(n){
@@ -66,7 +69,13 @@ function pushNumber(){
 }
 
 function eraseLastAction(){
-
+    if (current_operator === 'none') {
+        if (DISPLAY_VALUE.length > 0) {
+            let newValue = DISPLAY_VALUE.slice(0, DISPLAY_VALUE.length-1);
+            showContent(newValue);
+        }
+        
+    }
 }
 
 //---------BUTTONS FUNCTIONALITIES------------
