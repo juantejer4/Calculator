@@ -113,6 +113,7 @@ function selectOperation() {
         makeOperation();
         current_operator = this.id.split('-')[1];
     }
+    on_operation = true;
     just_selected_an_operator = true;
 }
 
@@ -130,6 +131,7 @@ function makeOperation(){
     }
     if (this.id === 'btn-eq') {
         on_operation = false; 
+        current_operator = 'none';
     }
     dot = false;
     second_term = undefined;
