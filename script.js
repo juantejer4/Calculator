@@ -210,3 +210,11 @@ btns.forEach(btn => {
 
 showContent(0);
 
+window.addEventListener('keydown', pressBtn)
+
+function pressBtn(e) {
+    console.log(e)
+
+}
+
+
