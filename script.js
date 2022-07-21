@@ -120,7 +120,6 @@ function makeOperation(){
     if (!just_selected_an_operator && current_operator !== 'none') {
         let second_term = parseFloat(DISPLAY_VALUE);
         let result = operate(first_term, current_operator ,second_term);
-        console.log(typeof(result));
         if (result !== Number.POSITIVE_INFINITY) {
             showContent(result);
             first_term = result;
@@ -213,7 +212,11 @@ showContent(0);
 window.addEventListener('keydown', pressBtn)
 
 function pressBtn(e) {
-    console.log(e)
+    let btns = ['Delete', 'Backspace'];
+    if (e.code.includes('Numpad') || btns.indexOf(e.code)>-1 ){
+        let btn = document.querySelector(`div[data-code="${e.code}"]`);
+        btn.click();
+    }
 
 }
 
