@@ -1,8 +1,8 @@
 on_operation = false;
 just_selected_an_operator = false;
 current_operator = 'none';
-first_term = 0;
-second_term = 0;
+first_term = undefined;
+second_term = undefined;
 
 DISPLAY_VALUE = '';
 
@@ -93,21 +93,27 @@ function eraseLastAction(){
 }
 
 function selectOperation() {
-    if (DISPLAY_VALUE.length>0) {
-        
+    if (current_operator === 'none') {
+        current_operator = this.id.split('-')[1];
+        first_term = parseInt(DISPLAY_VALUE);
+        just_selected_an_operator = true;  
+    } else {
+        makeOperation();
+        current_operator = this.id.split('-')[1];
     }
-    current_operator = this.id.split('-')[1];
-    first_term = parseInt(DISPLAY_VALUE);
-    just_selected_an_operator = true;
 }
 
 function makeOperation(){
-    let second_term = DISPLAY_VALUE;
-    let result = operate(first_term, current_operator ,second_term);
-    showContent(result);
-    on_operation = false;
-    first_term = result;
-    second_term = 0;
+    if (!just_selected_an_operator && current_operator !== 'none') {
+        let second_term = DISPLAY_VALUE;
+        let result = operate(first_term, current_operator ,second_term);
+        showContent(result);
+        on_operation = false;
+        first_term = result;
+        second_term = 0;
+    } else {
+        console.log('magic');
+    }
 
 }
 
@@ -140,7 +146,12 @@ const btn_eq = document.querySelector('#btn-eq');
 //Adding Event Listeners
 btn_eq.addEventListener('click', makeOperation);
 
-btn_clear.addEventListener('click', clearDisplay);
+btn_clear.addEventListener('click', () =>{
+    clearDisplay();
+    current_operator = 'none';
+    first_term = undefined;
+    second_term = undefined;
+});
 
 btn_bs.addEventListener('click', eraseLastAction);
 
