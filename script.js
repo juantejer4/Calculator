@@ -53,7 +53,7 @@ function clearDisplay(){
 function showContent(n){
     clearDisplay();
     if (n !== '') {
-        DISPLAY_VALUE = n;
+        DISPLAY_VALUE = n.toString();
         disp.textContent = n;    
     } else {
         clearDisplay();
@@ -109,21 +109,29 @@ function selectOperation() {
     if (current_operator === 'none') {
         current_operator = this.id.split('-')[1];
         first_term = parseFloat(DISPLAY_VALUE);
-        just_selected_an_operator = true;
     } else {
         makeOperation();
         current_operator = this.id.split('-')[1];
     }
+    just_selected_an_operator = true;
 }
 
 function makeOperation(){
     if (!just_selected_an_operator && current_operator !== 'none') {
         let second_term = parseFloat(DISPLAY_VALUE);
         let result = operate(first_term, current_operator ,second_term);
-        showContent(result);
-        first_term = result;
+        console.log(typeof(result));
+        if (result !== Number.POSITIVE_INFINITY) {
+            showContent(result);
+            first_term = result;
+        } else {
+            first_term = undefined;
+            showContent('Can\'t divide by 0')
+        }
     }
-    on_operation = false;
+    if (this.id === 'btn-eq') {
+        on_operation = false; 
+    }
     dot = false;
     second_term = undefined;
 
