@@ -1,8 +1,10 @@
 on_operation = false;
 just_selected_an_operator = false;
+dot = false;
 current_operator = 'none';
 first_term = undefined;
 second_term = undefined;
+
 
 DISPLAY_VALUE = '';
 
@@ -25,8 +27,8 @@ divide = (a,b)=>{
 //-----------------------------------------
 
 function operate(n1, operator, n2){
-    let a = parseInt(n1);
-    let b = parseInt(n2);
+    let a = parseFloat(n1);
+    let b = parseFloat(n2);
     switch (operator) {
         case 'plus':
             return add(a,b);
@@ -59,8 +61,13 @@ function showContent(n){
 }
 
 function addContent(n){
-    DISPLAY_VALUE += n;
-    disp.textContent = DISPLAY_VALUE;
+    if (DISPLAY_VALUE.length < 16) {
+        DISPLAY_VALUE += n;
+        disp.textContent = DISPLAY_VALUE;
+    } else {
+        DISPLAY_VALUE = DISPLAY_VALUE.slice(1);
+    }
+    
 }
 
 function pushNumber(){
@@ -71,10 +78,13 @@ function pushNumber(){
             addContent(n);  
         } else {
             showContent(n);
+            dot = false;
         }
 
     } else {
         showContent(n);
+        current_operator = 'none';
+        first_term = n;
         on_operation = true;
     }
     just_selected_an_operator=false;
@@ -83,6 +93,9 @@ function pushNumber(){
 function eraseLastAction(){
     if (current_operator === 'none') {
         if (DISPLAY_VALUE.length > 0) {
+            if (DISPLAY_VALUE[DISPLAY_VALUE.length-1] === '.') {
+                dot = false;
+            }
             let newValue = DISPLAY_VALUE.slice(0, DISPLAY_VALUE.length-1);
             showContent(newValue);
         }
@@ -95,8 +108,8 @@ function eraseLastAction(){
 function selectOperation() {
     if (current_operator === 'none') {
         current_operator = this.id.split('-')[1];
-        first_term = parseInt(DISPLAY_VALUE);
-        just_selected_an_operator = true;  
+        first_term = parseFloat(DISPLAY_VALUE);
+        just_selected_an_operator = true;
     } else {
         makeOperation();
         current_operator = this.id.split('-')[1];
@@ -105,16 +118,22 @@ function selectOperation() {
 
 function makeOperation(){
     if (!just_selected_an_operator && current_operator !== 'none') {
-        let second_term = DISPLAY_VALUE;
+        let second_term = parseFloat(DISPLAY_VALUE);
         let result = operate(first_term, current_operator ,second_term);
         showContent(result);
-        on_operation = false;
         first_term = result;
-        second_term = 0;
-    } else {
-        console.log('magic');
     }
+    on_operation = false;
+    dot = false;
+    second_term = undefined;
 
+}
+
+function pushDot(){
+    if (!dot) {
+        addContent('.');
+        dot=true;
+    }
 }
 
 //---------BUTTONS FUNCTIONALITIES------------
@@ -149,8 +168,10 @@ btn_eq.addEventListener('click', makeOperation);
 btn_clear.addEventListener('click', () =>{
     clearDisplay();
     current_operator = 'none';
+    on_operation = false;
     first_term = undefined;
     second_term = undefined;
+    dot=false;
 });
 
 btn_bs.addEventListener('click', eraseLastAction);
@@ -159,7 +180,7 @@ n_btns.forEach(btn => {btn.addEventListener('click',pushNumber)});
 
 op_btns.forEach(btn => {btn.addEventListener('click',selectOperation)});
 
-/*btn_dot.addEventListener('click', pushNumber)*/
+btn_dot.addEventListener('click', pushDot)
 
 
 function removeTransition(e){
